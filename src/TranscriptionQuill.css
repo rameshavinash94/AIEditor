@@ -1,0 +1,35 @@
+.transcription-container {
+    white-space: pre-wrap;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 300px;
+    user-select: text;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .transcription {
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .transcription.active {
+    color: #1a73e8;
+  }
+  
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .highlighted {
+    background-color: #ffeb3b;
+  }
+  
+  .remove-button-container {
+    margin-top: 15px;
+  }  

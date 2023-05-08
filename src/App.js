@@ -11,12 +11,12 @@ import EditorPage from "./EditorPage";
 const HomePage = () => {
   return (
     <>
-      <Header />
-      <HeroSection />
+    <Header />
+      {/* <HeroSection />
       <FeaturesSection />
       <HowItWorksSection />
       <SummarySection />
-      <Footer />
+      <Footer /> */}
     </>
   );
 };
