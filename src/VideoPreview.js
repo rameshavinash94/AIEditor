@@ -1,8 +1,8 @@
-import React, { useState,useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Box, FormGroup, FormControlLabel, Switch } from "@mui/material";
 import ReactPlayer from "react-player";
 
-const VideoPreview = ({ transcript,url, playing, onProgress, onPlay, onPause, seekTo }) => {
+const VideoPreview = ({ transcript, url, playing, onProgress, onPlay, onPause, seekTo }) => {
   const playerRef = useRef(null);
   const [prevSeekTo, setPrevSeekTo] = useState(null);
 
@@ -35,18 +35,18 @@ const VideoPreview = ({ transcript,url, playing, onProgress, onPlay, onPause, se
         marginRight: "16px"
       }}
     >
-     
+
       <ReactPlayer
-      ref={playerRef}
-      url={url}
-      playing={playing}
-      onProgress={onProgress}
-      onPlay={onPlay}
-      onPause={onPause}
-      controls={true}
-      width="100%"
-      height="80%"
-    />
+        ref={playerRef}
+        url={url}
+        playing={playing}
+        onProgress={onProgress}
+        onPlay={onPlay}
+        onPause={onPause}
+        controls={true}
+        width="100%"
+        height="80%"
+      />
     </Box>
   );
 };

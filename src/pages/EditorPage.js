@@ -11,32 +11,19 @@ import {
   FormControl, InputLabel, Select,
   Dialog, DialogTitle, DialogContent, DialogActions, Slider,
 } from "@mui/material";
-import VideoPreview from "./VideoPreview";
+import VideoPreview from "../VideoPreview";
 import CircularProgress from '@mui/material/CircularProgress';
 import Backdrop from '@mui/material/Backdrop';
 
-import logo from "./AIEditorlogo.png"; // Import the logo image
+import logo from "../AIEditorlogo.png"; // Import the logo image
 // import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import TranscriptionQuill from "./TranscriptionEditor";
-import { change_resolution,download_yt_video,extract_audio,get_transcript,copy_video,remove_silences,remove_filler_words,trim_operations,identify_PII,Silence_interval,muting_audio,merge_silenced_audio } from "./Utils";
+import { change_resolution,download_yt_video,extract_audio,get_transcript,copy_video,remove_silences,remove_filler_words,trim_operations,identify_PII,Silence_interval,muting_audio,merge_silenced_audio } from "../Utils";
 import Swal from 'sweetalert2'
 
 const EditorPage = () => {
-  const [transcriptions, setTranscriptions] = useState([
-    {'text': 'I', 'timestamp': 24.4, 'end': 24.5},
-    {'text': 'am', 'timestamp': 24.5, 'end': 24.6},
-    {'text': 'Savvy', 'timestamp': 24.7, 'end': 25.0},
-    {'text': 'social', 'timestamp': 25.3, 'end': 25.5},
-    {'text': 'am', 'timestamp': 25.8, 'end': 25.9},
-    {'text': 'principled', 'timestamp': 26.0, 'end': 26.4},
-    {'text': 'and', 'timestamp': 27.1, 'end': 27.2},
-    {'text': 'have', 'timestamp': 27.5, 'end': 27.6},
-    {'text': 'Exquisite', 'timestamp': 27.6, 'end': 27.9},
-    {'text': 'and', 'timestamp': 28.3, 'end': 28.4},
-    {'text': 'communication', 'timestamp': 28.9, 'end': 29.6},
-    {'text': 'skills', 'timestamp': 29.6, 'end': 29.9},
-  ]);
+  const [transcriptions, setTranscriptions] = useState([]);
   const [entiretranscription, setEntireTranscription] = useState([]);
 
   const [videoUrl,setVideoUrl] = useState("");

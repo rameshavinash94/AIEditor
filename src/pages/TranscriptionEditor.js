@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./TranscriptionQuill.css"; // Import custom CSS
-import {cut_operation,copy_video,extract_audio,get_transcript,merge_video,download_yt_video,lip_sync,voice_cloning,trim_operations } from "./Utils.js";
+import "../css/TranscriptionQuill.css"; // Import custom CSS
+import {cut_operation,copy_video,extract_audio,get_transcript,merge_video,download_yt_video,lip_sync,voice_cloning,trim_operations } from "../Utils.js";
 import CircularProgress from '@mui/material/CircularProgress';
 import Backdrop from '@mui/material/Backdrop';
 import Typography from '@mui/material/Typography';
