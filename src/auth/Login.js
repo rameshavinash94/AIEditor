@@ -1,22 +1,27 @@
 import React, { useState } from "react";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from "./auth";
 
 
 function Login() {
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
     const [loading, setLoading] = useState(false);
+    const auth = useAuth();
+    const navigate = useNavigate();
 
-    function getCode(e) {
+    function handleLogin(e) {
         e.preventDefault();
         setLoading(true);
+
+        auth.login("Yash");
+        navigate("/editor");
         setLoading(false);
     }
     return (
         <div className='container d-flex flex-row justify-content-center align-items-center' style={{ height: '100vh' }}>
             <div className='card col-5 shadow p-3' id='login_container'>
-                <form className='p-3' onSubmit={(e) => getCode(e)}>
+                <form className='p-3' onSubmit={(e) => handleLogin(e)}>
                     <div className='row'>
                         <div className='col'>
                             <div className='text-center p-3'>

@@ -6,18 +6,24 @@ import Login from "./auth/Login";
 import Header from "./layout/Header";
 import SignUp from "./auth/Signup";
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthProvider } from "./auth/auth";
+import { RequireAuth } from "./auth/RequireAuth";
 
 
 const App = () => {
+
+
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route path="/editor" element={<EditorPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/" element={<HomePage />} />
-      </Routes>
+      <AuthProvider>
+        <Header />
+        <Routes>
+          <Route path="/editor" element={<RequireAuth><EditorPage /></RequireAuth>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 };
