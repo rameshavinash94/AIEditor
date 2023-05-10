@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import Login from "./auth/Login";
 import Header from "./layout/Header";
 import SignUp from "./auth/Signup";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const App = () => {
