@@ -1,33 +1,29 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Header from "./Header";
-import HeroSection from "./HeroSection";
-import FeaturesSection from "./FeaturesSection";
-import HowItWorksSection from "./HowItWorksSection";
-import SummarySection from "./SummarySection";
-import Footer from "./Footer";
-import EditorPage from "./EditorPage";
+import EditorPage from "./pages/EditorPage";
+import HomePage from "./pages/HomePage";
+import Login from "./auth/Login";
+import Header from "./layout/Header";
+import SignUp from "./auth/Signup";
+import 'react-toastify/dist/ReactToastify.css';
+import { AuthProvider } from "./auth/auth";
+import { RequireAuth } from "./auth/RequireAuth";
 
-const HomePage = () => {
-  return (
-    <>
-    <Header />
-      {/* <HeroSection />
-      <FeaturesSection />
-      <HowItWorksSection />
-      <SummarySection />
-      <Footer /> */}
-    </>
-  );
-};
 
 const App = () => {
+
+
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/editor" element={<EditorPage />} />
-      </Routes>
+      <AuthProvider>
+        <Header />
+        <Routes>
+          <Route path="/editor" element={<RequireAuth><EditorPage /></RequireAuth>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 };
