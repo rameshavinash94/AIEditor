@@ -923,7 +923,74 @@ const EditorPage = () => {
               link.dispatchEvent(new MouseEvent("click"));
 
             }}>Export Video</MenuItem>
-            <MenuItem>Download SRT</MenuItem>
+            <MenuItem onClick={
+              () => {
+
+                function convertToSRT(wordTimestamps) {
+                  let srt = "";
+                  let subtitleNumber = 1;
+
+                  for (let i = 0; i < wordTimestamps.length; i++) {
+                    const { text, timestamp, end } = wordTimestamps[i];
+                    const sentence = constructSentence(wordTimestamps, i);
+                    const startTime = convertToTimecode(timestamp);
+                    const endTime = convertToTimecode(end);
+
+                    srt += `${subtitleNumber}\n${startTime} --> ${endTime}\n${sentence}\n\n`;
+                    subtitleNumber++;
+                  }
+
+                  return srt;
+                }
+
+                function convertToTimecode(timestamp) {
+                  const hours = Math.floor(timestamp / 3600);
+                  const minutes = Math.floor((timestamp % 3600) / 60);
+                  const seconds = Math.floor(timestamp % 60);
+                  const milliseconds = Math.floor((timestamp % 1) * 1000);
+                  const timecode = `${padNumber(hours)}:${padNumber(minutes)}:${padNumber(seconds)},${padNumber(milliseconds, 3)}`;
+
+                  return timecode;
+                }
+
+                function padNumber(number, length = 2) {
+                  return number.toString().padStart(length, '0');
+                }
+
+                function constructSentence(wordTimestamps, currentIndex) {
+                  const currentWord = wordTimestamps[currentIndex];
+                  let sentence = currentWord.text;
+                  let prevTimestamp = currentWord.timestamp;
+
+                  for (let i = currentIndex + 1; i < wordTimestamps.length; i++) {
+                    const word = wordTimestamps[i];
+
+                    if (word.timestamp - prevTimestamp <= 0.5) { // Adjust the time threshold as needed
+                      sentence += " " + word.text;
+                      prevTimestamp = word.timestamp;
+                    } else {
+                      break;
+                    }
+                  }
+
+                  return sentence;
+                }
+
+                function downloadSRT(filename, content) {
+                  const element = document.createElement('a');
+                  const blob = new Blob([content], { type: 'application/x-subrip' });
+                  element.href = URL.createObjectURL(blob);
+                  element.download = filename;
+                  document.body.appendChild(element);
+                  element.click();
+                  document.body.removeChild(element);
+                }
+
+                const srtContent = convertToSRT(transcriptions);
+                downloadSRT('subtitle.srt', srtContent);
+
+              }
+            }>Download SRT</MenuItem>
           </Menu>
         </Box>
         <Box
