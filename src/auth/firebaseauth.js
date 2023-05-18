@@ -1,16 +1,15 @@
 import { getAuth } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 
-
 const firebaseConfig = {
-    apiKey: "AIzaSyA3LEMcoLF6z9Ouh54PkkrjsQVGNioRRDk",
-    authDomain: "aieditor-383809.firebaseapp.com",
-    projectId: "aieditor-383809",
-    storageBucket: "aieditor-383809.appspot.com",
-    messagingSenderId: "363692042724",
-    appId: "1:363692042724:web:18dd8dbbe8a288133f7ff1"
+    apiKey: "AIzaSyD_Mv44cgEy4SGPvPa17589AfzJ2foVg7E",
+    authDomain: "aieditorv1.firebaseapp.com",
+    projectId: "aieditorv1",
+    storageBucket: "aieditorv1.appspot.com",
+    messagingSenderId: "189760368819",
+    appId: "1:189760368819:web:27503b11f65d85562b00c6",
+    measurementId: "G-11VZ43NWM6"
 };
 
 const app = initializeApp(firebaseConfig);
-
 export const firebaseauth = getAuth(app);
