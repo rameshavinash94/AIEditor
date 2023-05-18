@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useAuth } from "./auth";
 
 
@@ -8,14 +8,12 @@ function Login() {
     const [password, setPassword] = useState();
     const [loading, setLoading] = useState(false);
     const auth = useAuth();
-    const navigate = useNavigate();
 
     function handleLogin(e) {
         e.preventDefault();
         setLoading(true);
 
-        auth.login("Yash");
-        navigate("/editor");
+        auth.login(email, password);
         setLoading(false);
     }
     return (

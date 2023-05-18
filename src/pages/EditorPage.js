@@ -451,26 +451,18 @@ const EditorPage = () => {
           <option value="Driver's License Number">Driver's License Number</option>
         </select>
       </div>
-      <div>
-        <input type="checkbox" id="redact-audio" />
-        <label htmlFor="redact-audio">Redact Audio</label>
-      </div>
-      <div>
-        <input type="checkbox" id="redact-video" />
-        <label htmlFor="redact-video">Redact Video</label>
-      </div>
     `,
       showCancelButton: true,
       confirmButtonText: 'Confirm',
       cancelButtonText: 'Cancel',
       preConfirm: () => {
         const selectOption = document.getElementById('select-option');
-        const redactAudio = document.getElementById('redact-audio');
-        const redactVideo = document.getElementById('redact-video');
+        // const redactAudio = document.getElementById('redact-audio');
+        // const redactVideo = document.getElementById('redact-video');
         const result = {
           selectedOption: selectOption.value,
-          redactAudio: redactAudio.checked,
-          redactVideo: redactVideo.checked,
+          // redactAudio: redactAudio.checked,
+          // redactVideo: redactVideo.checked,
           redactPii: redactPii,
         };
         if (!selectOption.value) {
@@ -811,7 +803,7 @@ const EditorPage = () => {
               <Button onClick={handleSilenceOkClick}>OK</Button>
             </DialogActions>
           </Dialog>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               <Switch
                 checked={removeBg}
@@ -821,7 +813,7 @@ const EditorPage = () => {
               />
             }
             label="Remove Bg"
-          />
+          /> */}
           <FormControlLabel
             control={
               <Switch

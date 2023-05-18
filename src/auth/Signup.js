@@ -1,5 +1,8 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { NavLink } from 'react-router-dom';
+import { firebaseauth } from "./firebaseauth";
+import { ToastContainer, toast } from 'react-toastify';
 
 
 function SignUp() {
@@ -12,6 +15,17 @@ function SignUp() {
     function getCode(e) {
         e.preventDefault();
         setLoading(true);
+
+        if (password === confirmPassword) {
+            createUserWithEmailAndPassword(firebaseauth, email, confirmPassword).then((res) => {
+                toast.success("Sign Up successfull");
+            }).catch((err) => {
+                toast.error("something went wrong");
+            })
+        }
+
+
+
         setLoading(false);
     }
     return (
@@ -65,14 +79,14 @@ function SignUp() {
 
                         <div className='form-floating mb-3'>
                             <input
-                                type='confirmPassword'
+                                type='password'
                                 id='confirmPassword'
                                 name='confirmPassword'
                                 placeholder='Confirm your Password'
                                 value={confirmPassword}
                                 required={true}
                                 autoFocus={true}
-                                onChange={(e) => setConfimmPassword(e.target.value)}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                                 className='form-control'
                             />
                             <label htmlFor='password' className='ms-2'>
@@ -98,6 +112,16 @@ function SignUp() {
                     </p>
                 </div>
             </div>
+            <ToastContainer
+                position='bottom-right'
+                autoClose={3000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                pauseOnHover
+            />
         </div>
     )
 }
