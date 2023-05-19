@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "./static/css/main.6520b7fc.css",
+    "main.js": "./static/js/main.9c4d4088.js",
+    "static/media/AIEditorlogo.png": "./static/media/AIEditorlogo.02c1e23c170529db243c.png",
+    "index.html": "./index.html",
+    "main.6520b7fc.css.map": "./static/css/main.6520b7fc.css.map",
+    "main.9c4d4088.js.map": "./static/js/main.9c4d4088.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6520b7fc.css",
+    "static/js/main.9c4d4088.js"
+  ]
+}

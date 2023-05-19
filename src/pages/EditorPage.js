@@ -23,7 +23,7 @@ import { change_resolution, download_yt_video, extract_audio, get_transcript, co
 import Swal from 'sweetalert2'
 import { ToastContainer, toast } from 'react-toastify';
 
-const tinyUrl = "https://us-west2-aieditor-383809.cloudfunctions.net/url_shortener";
+const tinyUrl = "https://us-west2-aieditorv1.cloudfunctions.net/url_shortener";
 
 const EditorPage = () => {
   const [transcriptions, setTranscriptions] = useState([]);
@@ -354,14 +354,68 @@ const EditorPage = () => {
 
   function Remove_Fillers(input_gs_path, transcriptions) {
     let fillerwords = ['hmm', 'uhm', 'uh', 'um', 'ah', 'like']
-    setProgress(1);
-    setProgressMessage('Started Removing Filler Words from Video');
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: true
+    });
+    
+    swalWithBootstrapButtons.fire({
+      title: 'Filler Words',
+      text: 'Please select the filler words you want to remove from the video',
+      html: `
+        <div>
+          <p>Select fillers you want to remove from the video:</p>
+          <div class="custom-dropdown">
+            <select id="fillerWordsDropdown" multiple="multiple" style="width: 80px;">
+              <option value="hmm">hmm</option>
+              <option value="uhm">uhm</option>
+              <option value="uh">uh</option>
+              <option value="um">um</option>
+              <option value="ah">ah</option>
+              <option value="like">like</option>
+            </select>
+          </div>
+          <br>
+          <p>Enter any other filler word:</p>
+          <input type="text" id="otherFillerWord" placeholder="Enter multiple filler word sepeated by comma" size=39>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Remove',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // get all selected filler words
+          const selectedFillerWords =  Array.from(document.getElementById('fillerWordsDropdown').selectedOptions).map(option => option.value);
+          const otherFillerWord = document.getElementById('otherFillerWord').value.toLowerCase().split(',');
+          console.log("selectedFillerWords:", selectedFillerWords);
+          console.log("otherFillerWord:", otherFillerWord);
+          let selected_fillers = selectedFillerWords;
+          selected_fillers = selected_fillers.concat(otherFillerWord);
+          removefillers(input_gs_path, transcriptions, selected_fillers);
+          if (otherFillerWord) {
+            fillerwords.push(otherFillerWord);
+          }
+
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          setRemoveFillers(false);
+          return;
+        }
+      });
     const removefillers = async (input_gs_path, transcriptions, fillerWords) => {
       setProgress(5);
       setProgressMessage('Identifying Filler Words in Video and Removing them');
       // call the RemoveFillerWords function to remove fillers words 
       const response = await remove_filler_words(input_gs_path, transcriptions, fillerWords);
-      if (response[1] === videoUrl) {
+      if (response === "No filler words found") {
         setProgress(100);
         setProgressMessage("No filler words found in the video!");
         return;
@@ -402,7 +456,6 @@ const EditorPage = () => {
       setProgressMessage('Done!');
       setEntireTranscription(transcript.transcript);
     }
-    removefillers(input_gs_path, transcriptions, fillerwords);
   }
 
   async function generateTinyURL() {
@@ -606,6 +659,7 @@ const EditorPage = () => {
           padding: "10px"
         }}
       >
+        
         <IconButton edge="start" color="inherit" aria-label="logo" sx={{ mr: 2 }}>
           <img src={logo} alt="EditScape Logo" height="40" />
         </IconButton>
