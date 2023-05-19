@@ -98,7 +98,7 @@ function SignUp() {
 
                     <div className='text-center'>
                         <button className="btn btn-primary px-3 py-1 mt-2" type='submit' disabled={loading}>
-                            {loading && <span className='spinner-border spinner-border-sm me-1'></span>}Login
+                            {loading && <span className='spinner-border spinner-border-sm me-1'></span>}Register
                         </button>
                     </div>
                 </form>

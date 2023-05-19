@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   TextField,
-  IconButton,
   Typography,
   Button,
   Menu,
@@ -14,8 +13,6 @@ import {
 import VideoPreview from "../VideoPreview";
 import CircularProgress from '@mui/material/CircularProgress';
 import Backdrop from '@mui/material/Backdrop';
-
-import logo from "../AIEditorlogo.png"; // Import the logo image
 // import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import TranscriptionQuill from "./TranscriptionEditor";
@@ -645,7 +642,6 @@ const EditorPage = () => {
     }
     PII(input_gs_path, transcriptions, entireTranscription, selectedOptions);
   }
-
   return (
     <>
       <Box
@@ -659,10 +655,6 @@ const EditorPage = () => {
           padding: "10px"
         }}
       >
-        
-        <IconButton edge="start" color="inherit" aria-label="logo" sx={{ mr: 2 }}>
-          <img src={logo} alt="EditScape Logo" height="40" />
-        </IconButton>
         <TextField
           label="YouTube URL"
           value={youtubeUrl}
