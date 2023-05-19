@@ -482,96 +482,98 @@ const EditorPage = () => {
 
   const handleConfirm = async () => {
     Swal.fire({
-      title: 'Confirmation',
-      html: `
-      <div>
-        <label>Select an option:</label>
-        <select id="select-option" multiple>
-          <option value="">-- Please select --</option>
-          <option value="Address">Address</option>
-          <option value="Age">Age</option>
-          <option value="Bank Account Number">Bank Account Number</option>
-          <option value="Credit Card Number">Credit Card Number</option>
-          <option value="Email ID">Email ID</option>
-          <option value="Name">Name</option>
-          <option value="Phone Number">Phone Number</option>
-          <option value="Social Security Number">Social Security Number</option>
-          <option value="URL">URL</option>
-          <option value="Gender">Gender</option>
-          <option value="Driver's License Number">Driver's License Number</option>
-        </select>
-      </div>
-    `,
-      showCancelButton: true,
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel',
-      preConfirm: () => {
-        const selectOption = document.getElementById('select-option');
-        // const redactAudio = document.getElementById('redact-audio');
-        // const redactVideo = document.getElementById('redact-video');
-        const result = {
-          selectedOption: selectOption.value,
-          // redactAudio: redactAudio.checked,
-          // redactVideo: redactVideo.checked,
-          redactPii: redactPii,
-        };
-        if (!selectOption.value) {
-          Swal.showValidationMessage('Please select an option');
-        } else {
-          return result;
-        }
+      title: 'PII Identification and Redaction',
+      html: '<button id="open">Identify PII Entities</button>',
+      didOpen: () => {
+          Swal.getPopup().querySelector('#open').onclick = async function () {
+              Swal.clickConfirm(); // Close this dialog
+              let new_transcript = '"' + entiretranscription.toString() + '"';
+              const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/extract_pii_with_key_and_values', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    "input_text": new_transcript
+                  })
+              }).then(response => response.json()).then(result => {
+              // const data = {
+              //   "Country of origin":["Filipino American"],"Educational background":["Art Center in Pasadena"],"Hobbies":["dancing","rock climbing","spending time with my dog","playing video games"],"Interests":["camera gear","Tech","coffee"],"Name":["Matthew Encina"],"Profession":["Graphic designer"]
+              // }
+              const data = result["output_dictionary"]
+
+              // Build HTML content based on API response
+              let htmlContent = '';
+              for (const [key, value] of Object.entries(data)) {
+                htmlContent += `
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <b><label for="${key.split(' ').join('_')}">${key}</label></b>
+            <select id="${key.split(' ').join('_')}" multiple style="height:50px">
+                ${value.map(val => `<option value="${val}">${val}</option>`).join('')}
+            </select>
+        </div>
+    `;
+                  console.log(htmlContent);
+              }
+
+              // Open a new Swal with the API response
+              Swal.fire({
+                  title: 'Redact PII Entities',
+                  html: htmlContent,
+                  confirmButtonText: 'Redact',
+                  showCancelButton: true,
+                  preConfirm: () => {
+                    let result = {};
+                    for (const key of Object.keys(data)) {
+                        let select = Swal.getPopup().querySelector(`#${key.split(' ').join('_')}`);
+                        if (select) {
+                            result[key] = Array.from(select.selectedOptions).map(option => option.value);
+                        } else {
+                            console.error(`No select element found with id: ${key.split(' ').join('_')}`);
+                        }
+                    }
+                    return result;
+                }
+              }).then(result => {
+                  if (result.isConfirmed) {
+                      console.log(result.value); // Do something with the result
+                      // extract only the selected options from the result for all the keys
+                      function extractJSONValues(obj) {
+                          let values = [];
+                          for (let key in obj) {
+                            if (typeof obj[key] === "object") {
+                              if (Array.isArray(obj[key])) {
+                                values = values.concat(obj[key]);
+                              } else {
+                                values = values.concat(extractJSONValues(obj[key]));
+                              }
+                            } else {
+                              //check for null values
+                              if (obj[key] != null) {
+                                values.push(obj[key]);
+                              }
+                            }
+                          }
+                          return values;
+                        }
+                        const selectedOptions = extractJSONValues(result.value);
+                        console.log(selectedOptions);
+                      PII_operations(input_gs_path, transcriptions, selectedOptions)
+                  }
+              });
+            });
+          };
       },
-      allowOutsideClick: () => !Swal.isLoading(),
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const selectedOptions = Array.from(document.getElementById('select-option').selectedOptions).map(option => option.value);
-        PII_operations(input_gs_path, transcriptions, entiretranscription, selectedOptions)
-      }
-    }
-    );
+      showConfirmButton: false
+  });
   };
 
-  function PII_operations(input_gs_path, transcriptions, entireTranscription, selectedOptions) {
-    // get all the selected options from multiple select
-    // call the identify_PII function to identify PII
-    // setProgress(5);
-    // setProgressMessage('Identifying PII from Transcription');
+  function PII_operations(input_gs_path, transcriptions, selectedOptions) {
 
-    const PII = async (input_gs_path, transcriptions, entireTranscription, selectedOptions) => {
-
-      setProgress(20);
-      setProgressMessage('Identifying PII from Transcription');
-      const response = await identify_PII(selectedOptions, entireTranscription, transcriptions);
-
-      const pii = response
-      console.log(typeof (response))
-      console.log(pii);
-
-      function extractJSONValues(obj) {
-        let values = [];
-        for (let key in obj) {
-          if (typeof obj[key] === "object") {
-            if (Array.isArray(obj[key])) {
-              values = values.concat(obj[key]);
-            } else {
-              values = values.concat(extractJSONValues(obj[key]));
-            }
-          } else {
-            //check for null values
-            if (obj[key] != null) {
-              values.push(obj[key]);
-            }
-          }
-        }
-        return values;
-      }
-      // extract the pii values from the response
-      const pii_values = extractJSONValues(pii);
-
-      console.log(pii_values);
-
+    const PII = async (input_gs_path, transcriptions, selectedOptions) => {
+      
       // remove duplicates from the pii_values list
-      let pii_final = [...new Set(pii_values)];
+      let pii_final = [...new Set(selectedOptions)];
 
       console.log("after removing duplicates", pii_final);
 
@@ -640,7 +642,7 @@ const EditorPage = () => {
       setProgress(100);
       setProgressMessage('Done');
     }
-    PII(input_gs_path, transcriptions, entireTranscription, selectedOptions);
+    PII(input_gs_path, transcriptions, selectedOptions);
   }
   return (
     <>
