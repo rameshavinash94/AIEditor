@@ -1,4 +1,3 @@
-
 async function remove_filler_words(input_gs_path, wordtranscript, fillerWords) {
     let fillerWordSegments = [];
     console.log("Inside remove_filler_words function");
@@ -21,7 +20,7 @@ async function remove_filler_words(input_gs_path, wordtranscript, fillerWords) {
     console.log(fillerWordSegments);
     if (fillerWordSegments.length > 0) {
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/cuts_video', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/cuts_video', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,7 +42,7 @@ async function remove_filler_words(input_gs_path, wordtranscript, fillerWords) {
 }
 else {
     console.log("No filler words found");
-    return [input_gs_path, public_shared_url];
+    return "No filler words found";
 }
 }
 
@@ -61,7 +60,7 @@ async function identify_PII(categories,transcript)
     
     console.log("hi, I'm inside identify_PII");
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/extract_pii', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/extract_pii', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -86,7 +85,7 @@ async function muting_audio(input_gs_path,interval)
 {
     console.log("hi, I'm inside muting_audio");
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/mute_audio_multiple_intervals', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/mute_audio_multiple_intervals', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -111,7 +110,7 @@ async function merge_silenced_audio(video_url,muted_audio_url)
 {
     console.log("hi, I'm inside muting_audio");
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/merge_new_audio_with_audio', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/merge_new_audio_with_audio', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -138,7 +137,7 @@ async function Silence_interval(values,transcript)
     console.log(transcript);
     console.log("hi, I'm inside Silence_interval");
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/silence_interval', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/silence_interval', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -167,7 +166,7 @@ async function change_resolution(input_gs_path,resolution)
     console.log("hi, I'm inside change_resolution");
     // console.log(new_input_gs_path,new_resolution);
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/check_video_resolution', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/check_video_resolution', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -192,7 +191,7 @@ async function remove_silences(input_gs_path,frequencyInDB,silenceIntervals)
 {
     console.log("hi, I'm inside remove_silences");
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/remove_silences', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/remove_silences', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -219,7 +218,7 @@ async function remove_silences(input_gs_path,frequencyInDB,silenceIntervals)
 async function trim_operations(input_gs_path, start_time, end_time)
 {
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/trim_video', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/trim_video', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -252,7 +251,7 @@ async function cut_operation(input_gs_path, start_time, end_time)
         }
     ]
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/cuts_video', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/cuts_video', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -278,7 +277,7 @@ async function copy_video(input_gs_path)
 {
     console.log("hi, I'm inside copy_video");
     try {
-        const response = await fetch('https://us-central1-aieditor-383809.cloudfunctions.net/copy_blob', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/copy_blob', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -303,7 +302,7 @@ async function merge_video(input_gs_path1,input_gs_path2,replace_start,replace_e
 {
     console.log("hi, I'm inside merge_video");
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/concatenate_video', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/concatenate_video', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -329,10 +328,10 @@ async function merge_video(input_gs_path1,input_gs_path2,replace_start,replace_e
 async function download_yt_video(url,name) {
     console.log("hi, I'm inside download_yt_video");
     console.log(url);
-    let input_gs_path = `gs://editor_users/test_user/test_project/source_files/${name}_youtube_video.mp4`
+    let input_gs_path = `gs://editor_user/test_user/test_project/source_files/${name}_youtube_video.mp4`
     console.log(input_gs_path);
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/ytdl', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/ytdl', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -357,7 +356,7 @@ async function extract_audio(input_gs_path)
 {
     console.log("hi, I'm inside extract_audio");
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/extract_audio_channel', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/extract_audio_channel', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -383,7 +382,7 @@ async function get_transcript(input_gs_path)
 
     console.log("hi, I'm inside get transcript");
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/transcribe_audio', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/transcribe_audio', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -405,7 +404,7 @@ async function voice_cloning(input_gs_path,input_text)
 {
     console.log("hi, I'm inside voice_cloning");
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/voice_clonning', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/voice_clonning', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -430,7 +429,7 @@ async function lip_sync(input_gs_path,audio_url,video_url)
 {
     console.log("hi, I'm inside lip_sync");
     try {
-        const response = await fetch('https://us-west2-aieditor-383809.cloudfunctions.net/lip-sync', {
+        const response = await fetch('https://us-west2-aieditorv1.cloudfunctions.net/lip-sync', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
