@@ -2,7 +2,7 @@ import argparse
 from google.cloud.video import transcoder_v1
 from google.cloud.video.transcoder_v1.services.transcoder_service import (
     TranscoderServiceClient,
-)
+) 
 from google.protobuf import duration_pb2 as duration
 import os
 import base64
