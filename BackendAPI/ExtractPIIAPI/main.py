@@ -38,7 +38,7 @@ def extract_pii(request):
       input_text = request_json["input_text"]
       requested_categories = request_json.get("categories")
 
-      openai.api_key = "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"
+      openai.api_key = "**********************"
       model_engine = "text-davinci-002"
     #   prompt = ("Identify all the PIIs, and return them with their categories as a dictionary with category name as keyword and value as a list. There can be multiple values in the same PII category : '{}'\n\n".format(input_text))
 
