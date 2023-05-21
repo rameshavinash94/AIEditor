@@ -34,7 +34,7 @@ def totoise_tts_v1(text,audio_url):
     headers = {
     "Accept": "*/*",
     "Accept-Encoding": "gzip, deflate",
-    "Authorization": "Basic NWZiMzYwOTIwN2JhNWI4ZDZjMmQyYTM0NDNjM2JkNzQ6OTU0NGE1NjBmMmViNDQwMzBlNjFmM2NiNWI0ZDg5OWQ=",
+    "Authorization": "Basic ---ADD AUTH TOKEN---",
     "Connection": "keep-alive",
     "Content-Type": "application/json"
     }
@@ -49,7 +49,7 @@ def task_status(task_id):
     headers = {
     "Accept": "*/*",
     "Accept-Encoding": "gzip, deflate",
-    "Authorization": "Basic NWZiMzYwOTIwN2JhNWI4ZDZjMmQyYTM0NDNjM2JkNzQ6OTU0NGE1NjBmMmViNDQwMzBlNjFmM2NiNWI0ZDg5OWQ=",
+    "Authorization": "Basic ---ADD AUTH TOKEN---",
     "Connection": "keep-alive",
     "Content-Type": "application/json"
     }
