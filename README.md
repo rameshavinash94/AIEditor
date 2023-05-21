@@ -25,9 +25,10 @@ This project was bootstrapped with an initial set of files and configurations us
 7. Modify Resolution
 8. Video Trimming
 9. Modify Resolution
-10. Video Cutting
+10. Video Cutting and Editing with ease with the help of Transcription.
 11. URL Shortening
 12. SRT file download
+13. Remove Filler Words
 
 ## Steps to run the code
 
