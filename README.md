@@ -15,6 +15,9 @@ This project was bootstrapped with an initial set of files and configurations us
 2) EditorPage.png
 ![alt text](https://github.com/rameshavinash94/AIEditor/blob/nevil_test/images/Editor%20Page.png)
 
+## Deployment URL
+https://aieditorv1.web.app/
+
 ## Project Featuress
 1. Youtube Video Downloader
 2. Automatic Transcription (Using Video Model from Google)
